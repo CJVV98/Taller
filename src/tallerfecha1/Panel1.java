@@ -85,11 +85,35 @@ private int bandera=0;
 
         jLabel2.setText("Nombre");
 
+        nombre_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombre_txtKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Apellido");
+
+        apellido_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                apellido_txtKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("Fecha de nacimiento");
 
+        ano_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ano_txtKeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("Edad");
+
+        edad_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                edad_txtKeyTyped(evt);
+            }
+        });
 
         tipouser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMINISTRADOR", "RECREADOR" }));
         tipouser.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +134,24 @@ private int bandera=0;
         });
 
         jLabel7.setText("N Cedula");
+
+        cedula_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cedula_txtKeyTyped(evt);
+            }
+        });
+
+        mes_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mes_txtKeyTyped(evt);
+            }
+        });
+
+        dia_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dia_txtKeyTyped(evt);
+            }
+        });
 
         eliminar2.setBackground(new java.awt.Color(153, 0, 0));
         eliminar2.setForeground(new java.awt.Color(255, 255, 255));
@@ -290,6 +332,118 @@ private int bandera=0;
     private void editar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editar2ActionPerformed
+
+    private void cedula_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedula_txtKeyTyped
+         char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (cedula_txt.getText().length()<10))  {
+            
+        }else{
+             if(cedula_txt.getText().length()==10){
+                  evt.consume();
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+            else{
+                if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                      evt.consume();
+                        JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+            
+             }
+           
+             
+        }
+    }//GEN-LAST:event_cedula_txtKeyTyped
+
+    private void nombre_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre_txtKeyTyped
+       char c=evt.getKeyChar();
+        if(Character.isDigit(c)){
+            JOptionPane.showMessageDialog(null,"Solo se admiten letras", "Error", JOptionPane.ERROR_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_nombre_txtKeyTyped
+
+    private void apellido_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellido_txtKeyTyped
+        char c=evt.getKeyChar();
+        if(Character.isDigit(c)){
+            JOptionPane.showMessageDialog(null,"Solo se admiten letras", "Error", JOptionPane.ERROR_MESSAGE);
+            evt.consume();
+        }
+    }//GEN-LAST:event_apellido_txtKeyTyped
+
+    private void ano_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ano_txtKeyTyped
+        char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (ano_txt.getText().length()<4)) {
+            
+       }else{
+             if(ano_txt.getText().length()==4){
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+                evt.consume();
+             }
+            else{
+                 if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                      evt.consume();
+                    JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+             }
+            
+             }
+        }
+    }//GEN-LAST:event_ano_txtKeyTyped
+
+    private void mes_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mes_txtKeyTyped
+        char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (mes_txt.getText().length()<2)) {
+            
+       }else{
+             if(mes_txt.getText().length()==2){
+                  evt.consume();
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+            else{
+            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                  evt.consume();
+                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+               
+                }
+        }
+    }//GEN-LAST:event_mes_txtKeyTyped
+
+    private void dia_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dia_txtKeyTyped
+        char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (dia_txt.getText().length()<2)) {
+            
+       }else{
+             if(dia_txt.getText().length()==2){
+                  evt.consume();
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+            else{
+              if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                  evt.consume();
+                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+               
+                }
+        }
+    }//GEN-LAST:event_dia_txtKeyTyped
+
+    private void edad_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edad_txtKeyTyped
+      char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (edad_txt.getText().length()<2)) {
+            
+       }else{
+             if(edad_txt.getText().length()==2){
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+            else{
+            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                  evt.consume();
+                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+               
+                }
+        }
+    }//GEN-LAST:event_edad_txtKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

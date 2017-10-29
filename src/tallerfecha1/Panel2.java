@@ -18,7 +18,10 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.management.Query.gt;
+import static javax.management.Query.lt;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -32,6 +35,8 @@ public class Panel2 extends javax.swing.JPanel {
     private  Date fecha1;
     private  Time horainicial,horafinal;
     private LocalTime hora1,hora2;
+    private int limite  = 4;
+    private DefaultTableModel table_model_eventos;
     /**
      * Creates new form Panel2
      */
@@ -44,6 +49,31 @@ public class Panel2 extends javax.swing.JPanel {
         recreadoresl.addItem(lista.get(i));
     }}
 
+     public void setTableModel(DefaultTableModel table_model_eventos){
+        this. table_model_eventos =  table_model_eventos;
+    }
+    
+    public void refreshTableModel()
+    {
+       ArrayList<Actividad> lista_eventos=Repositorioact.obtenerTodos();
+       while(table_model_eventos.getRowCount()>0){
+            table_model_eventos.removeRow(0);
+       }
+       
+       for(Actividad p: lista_eventos){         
+           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+           SimpleDateFormat sdh = new SimpleDateFormat("hh:mm:ss");
+           String fecha1=sdf.format(p.getFechai());
+          
+           String hora1=sdh.format(p.getHorainicio());
+           String hora2=sdh.format(p.getHorafin());
+           String[] data={p.getNombre(),fecha1,hora1,hora2,p.getDescripcion(),p.getRecreador()};
+           table_model_eventos.addRow(data);
+       }
+    }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,9 +116,27 @@ public class Panel2 extends javax.swing.JPanel {
 
         jLabel3.setText("Fecha");
 
+        txt_ano.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_anoKeyTyped(evt);
+            }
+        });
+
         jLabel4.setText("Hora de Inicio");
 
+        txt_horai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_horaiKeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("Hora Final");
+
+        txt_horaf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_horafKeyTyped(evt);
+            }
+        });
 
         jLabel6.setText("Recreador");
 
@@ -124,6 +172,18 @@ public class Panel2 extends javax.swing.JPanel {
         editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarActionPerformed(evt);
+            }
+        });
+
+        txt_mes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_mesKeyTyped(evt);
+            }
+        });
+
+        txt_dia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_diaKeyTyped(evt);
             }
         });
 
@@ -230,7 +290,8 @@ public class Panel2 extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-       if(txt_nombre.getText().isEmpty()||txt_mes.getText().isEmpty()||txt_dia.getText().isEmpty()||txt_ano.getText().isEmpty()||txt_horai.getText().isEmpty()|| txt_horaf.getText().isEmpty()||
+        int errores=0;
+        if(txt_nombre.getText().isEmpty()||txt_mes.getText().isEmpty()||txt_dia.getText().isEmpty()||txt_ano.getText().isEmpty()||txt_horai.getText().isEmpty()|| txt_horaf.getText().isEmpty()||
             txt_descripcion.getText().isEmpty()){
             JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
             
@@ -243,28 +304,54 @@ public class Panel2 extends javax.swing.JPanel {
             Date fecha2=Date.valueOf(aux.plusDays(15));
             //fecha para guardar fecha del evento
             DateFormat formatter = new SimpleDateFormat("HH:mm");
-            
+            try{
             hora1=LocalTime.parse(txt_horai.getText());
-            hora2=LocalTime.parse(txt_horaf.getText());
-            System.out.println("hora: "+hora1);
+            }catch(java.time.format.DateTimeParseException sd){
+                 errores++;
+                 JOptionPane.showMessageDialog(this, "Por Digitar la hora en formato militar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            try{
+                hora2=LocalTime.parse(txt_horaf.getText());
+            }catch(java.time.format.DateTimeParseException sf){
+                  JOptionPane.showMessageDialog(this, "Por Digitar la hora en formato militar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+           if(Integer.parseInt(txt_mes.getText())<=0 || Integer.parseInt(txt_mes.getText())>=13){
+                        errores++;
+                        JOptionPane.showMessageDialog(this, "Este mes es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+           }
+           try{
             fechan=LocalDate.of(Integer.parseInt(txt_ano.getText()), Month.of(Integer.parseInt(txt_mes.getText())), Integer.parseInt(txt_dia.getText()));
             fecha1=Date.valueOf(fechan);
             horainicial=Time.valueOf(hora1);
             horafinal=Time.valueOf(hora2);
             ahora12=Timestamp.valueOf(ahora);
             System.out.println("Hora"+horainicial+" -  "+horafinal);
+           }catch(java.lang.NullPointerException sr){
+                errores++;
+           }catch(java.time.DateTimeException df){
+              errores++;
+              JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+           if(errores==0){         
             if(fecha2.before(fecha1)){
                 System.out.println("Esta despues"+fecha1+fecha2);
             }
             else{
-                System.out.println("No Esta despues"+fecha1+fecha2);
+                 errores++;
+                  JOptionPane.showMessageDialog(this, "Por favor hacer la reserva con 15 dias de anterioridad", "Error", JOptionPane.ERROR_MESSAGE);
             }
-         if(Repositorioact.comparar(fecha1,horainicial,horafinal,trecreador)==2){
-               
+             if(Repositorioact.comparar(fecha1,horainicial,horafinal,trecreador)==1){
+                 JOptionPane.showMessageDialog(this, "Por favor revisar el horario debido a que hay un cruce de horas", "Error", JOptionPane.ERROR_MESSAGE);
+                  errores++;
               }
-          // act=Actividad.crear(0,txt_nombre.getText(),txt_descripcion.getText(),trecreador,fecha1,horainicial,horafinal,ahora12);
-          // Repositorioact.crear(act);
+           }
+        
+         if(errores==0){
+            act=Actividad.crear(0,txt_nombre.getText(),txt_descripcion.getText(),trecreador,fecha1,horainicial,horafinal,ahora12);
+            Repositorioact.crear(act);
            JOptionPane.showMessageDialog(this, "Actividad Registrada", "Bien", JOptionPane.INFORMATION_MESSAGE);
+         }
+          
        }
     }//GEN-LAST:event_agregarActionPerformed
 
@@ -275,6 +362,99 @@ public class Panel2 extends javax.swing.JPanel {
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editarActionPerformed
+
+    private void txt_anoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_anoKeyTyped
+         char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (txt_ano.getText().length()<4)) {
+            
+       }else{
+             if(txt_ano.getText().length()==4){
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+                evt.consume();
+             }
+            else{
+            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                  evt.consume();
+                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+               
+                }
+        }
+    }//GEN-LAST:event_txt_anoKeyTyped
+
+    private void txt_mesKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_mesKeyTyped
+         char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (txt_mes.getText().length()<2)) {
+            
+       }else{
+             if(txt_mes.getText().length()==2){
+                  evt.consume();
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+           else{
+            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                  evt.consume();
+                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+               
+                }
+        }
+    }//GEN-LAST:event_txt_mesKeyTyped
+
+    private void txt_diaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_diaKeyTyped
+        char c=evt.getKeyChar();
+        if(Character.isDigit(c)&& (txt_dia.getText().length()<2)) {
+            
+       }else{
+             if(txt_dia.getText().length()==2){
+                  evt.consume();
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+            else{
+            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
+                  evt.consume();
+                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+               
+                }
+        }
+    }//GEN-LAST:event_txt_diaKeyTyped
+
+    private void txt_horaiKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_horaiKeyTyped
+         char c=evt.getKeyChar();
+        if(Character.isDigit(c) && (txt_horai.getText().length()<5)) {
+            
+        }else{
+            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=59 && c<=63)){
+                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros y (:)", "Error", JOptionPane.ERROR_MESSAGE);
+                evt.consume();
+        }
+            else{
+               if(txt_horai.getText().length()==5){
+               evt.consume();
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+            }
+        }
+    }//GEN-LAST:event_txt_horaiKeyTyped
+
+    private void txt_horafKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_horafKeyTyped
+       char c=evt.getKeyChar();
+        if(Character.isDigit(c) && (txt_horaf.getText().length()<5)) {
+            
+        }else{
+            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=59 && c<=63)){
+            JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros y (:)", "Error", JOptionPane.ERROR_MESSAGE);
+            evt.consume();
+        }
+            else{
+               if(txt_horaf.getText().length()==5){
+                   evt.consume();
+               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+            }
+            }
+        }
+    }//GEN-LAST:event_txt_horafKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
