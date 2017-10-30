@@ -7,6 +7,7 @@ package tallerfecha1;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -301,14 +302,14 @@ public class Panel1 extends javax.swing.JPanel {
 
     private void eliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar2ActionPerformed
         int result = JOptionPane.showConfirmDialog(this, "Realmente desea eliminar esta persona", "Eliminar", JOptionPane.YES_NO_OPTION);
-        
+
         if (result == JOptionPane.YES_OPTION) {
             Repositorio.eliminar(persona);
-            this.refreshTableModel();
+            //this.refreshTableModel();
             this.resetPersona();
         }
     }//GEN-LAST:event_eliminar2ActionPerformed
-    
+
     private void resetPersona() {
         persona.setId(0);
         persona.setCedula(0);
@@ -320,7 +321,8 @@ public class Panel1 extends javax.swing.JPanel {
         persona.setFecharegistro(ahora12);
         popularPersona(persona);
     }
-    public void setTableModel(DefaultTableModel table_model_personas) {
+
+    /*public void setTableModel(DefaultTableModel table_model_personas) {
         this.table_model_personas = table_model_personas;
     }
     
@@ -331,49 +333,14 @@ public class Panel1 extends javax.swing.JPanel {
         }
         
         for (Persona p : lista_personas) {
-            //String[] data = {Integer.toString(p.getId()), Integer.toString(p.getCedula()), p.getNombre(), p.getApellido(), Date.parse(p.getFechanac()), Integer.toString(p.getEdad(), p.getTipo(), Timestamp.parse(p.getFecharegistro()))};
-            //table_model_personas.addRow(data);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+         
+          
+            String fecha1 = sdf.format(p.getFechanac());
+            String[] data = {Integer.toString(p.getId()), Integer.toString(p.getCedula()), p.getNombre(), p.getApellido(), fecha1, Integer.toString(p.getEdad()), p.getTipo()};
+            table_model_personas.addRow(data);
         }
-    }
-    
-    private void editar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar2ActionPerformed
-        bandera = 0;
-        if (apellido_txt.getText().isEmpty() || nombre_txt.getText().isEmpty() || edad_txt.getText().isEmpty() || ano_txt.getText().isEmpty() || mes_txt.getText().isEmpty() || dia_txt.getText().isEmpty()) {
-            bandera = 1;
-            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-
-            tuser = (String) tipouser.getSelectedItem();
-            LocalDateTime ahora = LocalDateTime.now();
-            int mesaux = Integer.parseInt(mes_txt.getText());
-            try {
-                if (Integer.parseInt(mes_txt.getText()) <= 0 || Integer.parseInt(mes_txt.getText()) >= 13) {
-                    bandera = 2;
-                    JOptionPane.showMessageDialog(this, "Este mes es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    fechan = LocalDate.of(Integer.parseInt(ano_txt.getText()), Month.of(Integer.parseInt(mes_txt.getText())), Integer.parseInt(dia_txt.getText()));
-                    fecha1 = Date.valueOf(fechan);
-                    ahora12 = Timestamp.valueOf(ahora);
-                    System.out.printf("\nEl dia es es %s y naci en un %s%n", fecha1, ahora12);
-                }
-            } catch (java.time.DateTimeException sd) {
-                bandera = 2;
-                JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-
-        }
-        System.out.println(bandera);
-        if (bandera != 1 && bandera != 2) {
-            persona = Persona.crear(0, Integer.parseInt(cedula_txt.getText()), Integer.parseInt(edad_txt.getText()), nombre_txt.getText(), apellido_txt.getText(), tuser, fecha1, ahora12);
-            Repositorio.crear(persona);
-
-            JOptionPane.showMessageDialog(this, "Persona Creada", "Bien", JOptionPane.INFORMATION_MESSAGE);
-
-        }
-        Repositorio.editar(persona);
-        JOptionPane.showMessageDialog(this, "Persona actualizada satisfactoriamente", "Bien", JOptionPane.INFORMATION_MESSAGE);
-
-    }//GEN-LAST:event_editar2ActionPerformed
+    }*/
 
     private void cedula_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedula_txtKeyTyped
         char c = evt.getKeyChar();
@@ -490,6 +457,51 @@ public class Panel1 extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_buscarpersonaActionPerformed
+
+    private void editar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar2ActionPerformed
+        bandera = 0;
+        if (apellido_txt.getText().isEmpty() || nombre_txt.getText().isEmpty() || edad_txt.getText().isEmpty() || ano_txt.getText().isEmpty() || mes_txt.getText().isEmpty() || dia_txt.getText().isEmpty()) {
+            bandera = 1;
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            tuser = (String) tipouser.getSelectedItem();
+            LocalDateTime ahora = LocalDateTime.now();
+            int mesaux = Integer.parseInt(mes_txt.getText());
+            try {
+                if (Integer.parseInt(mes_txt.getText()) <= 0 || Integer.parseInt(mes_txt.getText()) >= 13) {
+                    bandera = 2;
+                    JOptionPane.showMessageDialog(this, "Este mes es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    fechan = LocalDate.of(Integer.parseInt(ano_txt.getText()), Month.of(Integer.parseInt(mes_txt.getText())), Integer.parseInt(dia_txt.getText()));
+                    fecha1 = Date.valueOf(fechan);
+                    ahora12 = Timestamp.valueOf(ahora);
+                    System.out.printf("\nEl dia es es %s y naci en un %s%n", fecha1, ahora12);
+                }
+            } catch (java.time.DateTimeException sd) {
+                bandera = 2;
+                JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+        persona.setApellido(apellido_txt.getText());
+        persona.setNombre(nombre_txt.getText());
+        persona.setCedula(Integer.parseInt(cedula_txt.getText()));
+        persona.setFechanac(fecha1);
+        persona.setEdad(Integer.parseInt(edad_txt.getText()));
+        persona.setTipo(tuser);
+        persona.setFecharegistro(ahora12);
+        
+        System.out.println(bandera);
+        if (bandera != 1 && bandera != 2) {
+          
+            Repositorio.editar(persona);
+            JOptionPane.showMessageDialog(this, "Persona actualizada satisfactoriamente", "Bien", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+        //Repositorio.editar(persona);
+
+    }//GEN-LAST:event_editar2ActionPerformed
 
     private void popularPersona(Persona persona) {
         cedula_txt.setText(String.valueOf(persona.getCedula()));

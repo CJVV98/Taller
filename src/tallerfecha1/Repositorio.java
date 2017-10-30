@@ -38,14 +38,16 @@ public class Repositorio {
     }
     public static void editar (Persona persona) {
         try {
-            String query = "UPDATE registro SET cedula = ?, nombre = ?, apellido = ?, fechanac = ?, edad = ?, tipo = ? WHERE id = ?;";
+            String query = "UPDATE registro SET cedula = ?, nombre = ?, apellido = ?, fechanac = ?, edad = ?, tipo= ?, fecharegistro = ? WHERE id = ?;";
             PreparedStatement sentenciaP = database.open().prepareStatement(query);
-            sentenciaP.setString(1, String.valueOf(persona.getCedula()));
+             sentenciaP.setInt(1, persona.getCedula());
             sentenciaP.setString(2, persona.getNombre());
             sentenciaP.setString(3, persona.getApellido());
-            sentenciaP.setString(4, String.valueOf(persona.getFechanac()));
-            sentenciaP.setString(5, String.valueOf(persona.getEdad()));
+            sentenciaP.setDate(4, persona.getFechanac());
+            sentenciaP.setInt(5, persona.getEdad());
             sentenciaP.setString(6, persona.getTipo());
+            sentenciaP.setTimestamp(7, persona.getFecharegistro());
+            sentenciaP.setInt(8, persona.getId());
 
             sentenciaP.executeUpdate();
             sentenciaP.close();
@@ -78,7 +80,8 @@ public class Repositorio {
             ResultSet resultado = sentenciaP.executeQuery();
 
             while (resultado.next()) {
-                //personas.add(Persona.crear(resultado.getInt("id"), Integer.parseInt(resultado.getString("cedula")), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getDate("fechanac"), Integer.parseInt(resultado.getString("edad")), resultado.getString("tipo"), resultado.getTimestamp("fecharegistro")));
+                //t id, int cedula, int edad, String nombre, String apellido, String tipo,Date fechanac, Timestamp fecharegistro)
+                personas.add(Persona.crear(resultado.getInt("id"), resultado.getInt("cedula"), resultado.getInt("edad"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("tipo"), resultado.getDate("fechanac"),  resultado.getTimestamp("fecharegistro")));
             }
 
             sentenciaP.close();
@@ -121,7 +124,7 @@ public class Repositorio {
             ResultSet resultado = sentenciaP.executeQuery();
 
             while (resultado.next()) {
-                //return Persona.crear(resultado.getInt("id"), Integer.parseInt(resultado.getString("cedula")), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getDate("fechanac"), Integer.parseInt(resultado.getString("edad")), resultado.getString("tipo"), resultado.getTimestamp("fecharegistro"));
+                return Persona.crear(resultado.getInt("id"), resultado.getInt("cedula"), resultado.getInt("edad"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("tipo"), resultado.getDate("fechanac"),  resultado.getTimestamp("fecharegistro"));
             }
             
             sentenciaP.close();

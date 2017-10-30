@@ -316,10 +316,6 @@ public class Panel2 extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_eliminarActionPerformed
 
-    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editarActionPerformed
-
     private void txt_anoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_anoKeyTyped
          char c=evt.getKeyChar();
         if(Character.isDigit(c)&& (txt_ano.getText().length()<4)) {
@@ -412,6 +408,10 @@ public class Panel2 extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_txt_horafKeyTyped
+
+    private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
