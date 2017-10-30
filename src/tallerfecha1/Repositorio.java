@@ -136,6 +136,29 @@ public class Repositorio {
 
         return null;
     }
+
+    public static int validarcedula(int cedula) {
+         int bandera=0; 
+       try {
+            //aqui ese select me selecciona la tabla ese where me indica donde recreador = String recreador1 si lo encuentra
+            String query = "SELECT * FROM registro WHERE cedula = '" + cedula+ "';";
+            PreparedStatement sentenciaP = database.open().prepareStatement(query);// esto es para preparar lo del mysql eso si lo copie del ejercicio anterior hast
+            ResultSet resultado = sentenciaP.executeQuery();
+            
+            while (resultado.next()) {//aqui copie
+             if (resultado.getInt("cedula")==cedula) {
+                 bandera++;
+             }
+         }
+            } catch (Exception e) {
+            System.out.println(e.getMessage());
+            }
+       if(bandera>0){
+           return 1;
+       }else{
+           return 0;
+       }
+    }
 }
 
 

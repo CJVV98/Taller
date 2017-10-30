@@ -50,7 +50,28 @@ public class Panel2 extends javax.swing.JPanel {
         eliminar.setVisible(false);
         editar.setVisible(false);
     }}
-
+ public void setTableModel(DefaultTableModel table_model_eventos){
+        this. table_model_eventos =  table_model_eventos;
+    }
+    
+    public void refreshTableModel()
+    {
+       ArrayList<Actividad> lista_eventos=Repositorioact.obtenerTodos();
+       while(table_model_eventos.getRowCount()>0){
+            table_model_eventos.removeRow(0);
+       }
+       
+       for(Actividad p: lista_eventos){         
+           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+           SimpleDateFormat sdh = new SimpleDateFormat("hh:mm:ss");
+           String fecha1=sdf.format(p.getFechai());
+          
+           String hora1=sdh.format(p.getHorainicio());
+           String hora2=sdh.format(p.getHorafin());
+           String[] data={p.getNombre(),fecha1,hora1,hora2,p.getDescripcion(),p.getRecreador()};
+           table_model_eventos.addRow(data);
+       }
+    }
      
     
     
@@ -95,11 +116,35 @@ public class Panel2 extends javax.swing.JPanel {
 
         jLabel2.setText("Nombre del Evento");
 
+        txt_nombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_nombreKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Fecha");
+
+        txt_ano.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_anoKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("Hora de Inicio");
 
+        txt_horai.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_horaiKeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("Hora Final");
+
+        txt_horaf.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_horafKeyTyped(evt);
+            }
+        });
 
         jLabel6.setText("Recreador");
 
@@ -135,6 +180,18 @@ public class Panel2 extends javax.swing.JPanel {
         editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editarActionPerformed(evt);
+            }
+        });
+
+        txt_mes.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_mesKeyTyped(evt);
+            }
+        });
+
+        txt_dia.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txt_diaKeyTyped(evt);
             }
         });
 
@@ -536,6 +593,10 @@ public class Panel2 extends javax.swing.JPanel {
             }
         }*/
     }//GEN-LAST:event_buscareventoActionPerformed
+
+    private void txt_nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_nombreKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

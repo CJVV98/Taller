@@ -184,6 +184,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nombre_txt">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nombre_txtKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -191,6 +194,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="apellido_txt">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="apellido_txtKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
@@ -198,6 +204,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="ano_txt">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ano_txtKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
@@ -205,6 +214,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="edad_txt">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="edad_txtKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="tipouser">
       <Properties>
@@ -245,10 +257,19 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="cedula_txt">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="cedula_txtKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="mes_txt">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="mes_txtKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="dia_txt">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dia_txtKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="eliminar2">
       <Properties>
