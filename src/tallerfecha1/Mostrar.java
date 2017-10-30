@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * @author johan
  */
 public class Mostrar extends javax.swing.JPanel {
+Panel2 pan=new Panel2();
 private DefaultTableModel table_model_personas;
     public Mostrar() {
         initComponents();
@@ -81,15 +82,18 @@ private DefaultTableModel table_model_personas;
     // End of variables declaration//GEN-END:variables
 
     private void configComponentes() {
-        DefaultTableModel table_model_personas = new DefaultTableModel();
-        table_model_personas.addColumn("Nombre");
-        table_model_personas.addColumn("Fecha");
-        table_model_personas.addColumn("Hora(ini)");
-        table_model_personas.addColumn("Hora(fin)");
-        table_model_personas.addColumn("Descripcion");
-        table_model_personas.addColumn("Recreador");
+         DefaultTableModel table_model_eventos = new DefaultTableModel();
+        table_model_eventos.addColumn("Nombre");
+        table_model_eventos.addColumn("Fecha");
+        table_model_eventos.addColumn("Hora(ini)");
+        table_model_eventos.addColumn("Hora(fin)");
+        table_model_eventos.addColumn("Descripcion");
+        table_model_eventos.addColumn("Recreador");
         
-        tablaeventos.setModel(table_model_personas);
+        tablaeventos.setModel(table_model_eventos);
+        
+        pan.setTableModel(table_model_eventos);
+        pan.refreshTableModel();
        //panel1.setTableModel(table_model_personas);
        // panel1.refreshTableModel();
     }

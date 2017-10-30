@@ -93,11 +93,35 @@ public class Panel1 extends javax.swing.JPanel {
 
         jLabel2.setText("Nombre");
 
+        nombre_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nombre_txtKeyTyped(evt);
+            }
+        });
+
         jLabel3.setText("Apellido");
+
+        apellido_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                apellido_txtKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("Fecha de nacimiento");
 
+        ano_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ano_txtKeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("Edad");
+
+        edad_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                edad_txtKeyTyped(evt);
+            }
+        });
 
         tipouser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMINISTRADOR", "RECREADOR" }));
         tipouser.addActionListener(new java.awt.event.ActionListener() {
@@ -118,6 +142,24 @@ public class Panel1 extends javax.swing.JPanel {
         });
 
         jLabel7.setText("N Cedula");
+
+        cedula_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cedula_txtKeyTyped(evt);
+            }
+        });
+
+        mes_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mes_txtKeyTyped(evt);
+            }
+        });
+
+        dia_txt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                dia_txtKeyTyped(evt);
+            }
+        });
 
         eliminar2.setBackground(new java.awt.Color(153, 0, 0));
         eliminar2.setForeground(new java.awt.Color(255, 255, 255));
@@ -284,7 +326,10 @@ public class Panel1 extends javax.swing.JPanel {
                 bandera = 2;
                 JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
+        if(Repositorio.validarcedula(Integer.parseInt(cedula_txt.getText()))==1){
+            bandera=2;
+             JOptionPane.showMessageDialog(this, "Esta cedula ya existe", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         }
         System.out.println(bandera);
         if (bandera != 1 && bandera != 2) {
@@ -509,9 +554,13 @@ public class Panel1 extends javax.swing.JPanel {
         nombre_txt.setText(persona.getNombre());
         apellido_txt.setText(persona.getApellido());
         tipouser.setSelectedItem(persona.getTipo());
-        ano_txt.setText(String.valueOf(persona.getFechanac()));
-        mes_txt.setText(String.valueOf(persona.getFechanac()));
-        dia_txt.setText(String.valueOf(persona.getFechanac()));
+        String[] parts = String.valueOf(persona.getFechanac()).split("-");
+        String part1 = parts[0]; // 123
+        String part2 = parts[1];
+        String part3 = parts[2];
+        ano_txt.setText(part1);
+        mes_txt.setText(part2);
+        dia_txt.setText(part3);
 
         if (persona.getId() != 0) {
             eliminar2.setVisible(true);
