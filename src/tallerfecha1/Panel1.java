@@ -11,26 +11,32 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author johan
  */
 public class Panel1 extends javax.swing.JPanel {
-private Persona persona;
-private  LocalDate fechan;
 
-private String tuser;
-private  Timestamp ahora12;
-private   Date fecha1;
-private int bandera=0;
+    private Persona persona;
+    private DefaultTableModel table_model_personas;
+    private LocalDate fechan;
+
+    private String tuser;
+    private Timestamp ahora12;
+    private Date fecha1;
+    private int bandera = 0;
 
     /**
      * Creates new form panel1
      */
     public Panel1() {
         initComponents();
+        eliminar2.setVisible(false);
+        editar2.setVisible(false);
     }
 
     /**
@@ -65,6 +71,7 @@ private int bandera=0;
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        buscarpersona = new javax.swing.JButton();
 
         agregar1.setBackground(new java.awt.Color(153, 153, 0));
         agregar1.setForeground(new java.awt.Color(255, 255, 255));
@@ -85,35 +92,11 @@ private int bandera=0;
 
         jLabel2.setText("Nombre");
 
-        nombre_txt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                nombre_txtKeyTyped(evt);
-            }
-        });
-
         jLabel3.setText("Apellido");
-
-        apellido_txt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                apellido_txtKeyTyped(evt);
-            }
-        });
 
         jLabel4.setText("Fecha de nacimiento");
 
-        ano_txt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                ano_txtKeyTyped(evt);
-            }
-        });
-
         jLabel5.setText("Edad");
-
-        edad_txt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                edad_txtKeyTyped(evt);
-            }
-        });
 
         tipouser.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ADMINISTRADOR", "RECREADOR" }));
         tipouser.addActionListener(new java.awt.event.ActionListener() {
@@ -134,24 +117,6 @@ private int bandera=0;
         });
 
         jLabel7.setText("N Cedula");
-
-        cedula_txt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                cedula_txtKeyTyped(evt);
-            }
-        });
-
-        mes_txt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                mes_txtKeyTyped(evt);
-            }
-        });
-
-        dia_txt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                dia_txtKeyTyped(evt);
-            }
-        });
 
         eliminar2.setBackground(new java.awt.Color(153, 0, 0));
         eliminar2.setForeground(new java.awt.Color(255, 255, 255));
@@ -176,6 +141,15 @@ private int bandera=0;
         jLabel10.setText("M");
 
         jLabel11.setText("D");
+
+        buscarpersona.setBackground(new java.awt.Color(102, 0, 102));
+        buscarpersona.setForeground(new java.awt.Color(255, 255, 255));
+        buscarpersona.setText("BUSCAR");
+        buscarpersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscarpersonaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -206,33 +180,36 @@ private int bandera=0;
                                 .addComponent(jLabel1))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(tipouser, 0, 219, Short.MAX_VALUE)
-                                        .addGap(5, 5, 5))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel6)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(tipouser, 0, 219, Short.MAX_VALUE)
+                                            .addGap(5, 5, 5))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel7)
+                                                .addComponent(jLabel2)
+                                                .addComponent(jLabel3))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(nombre_txt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
+                                                .addComponent(cedula_txt, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(apellido_txt)))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel5)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(edad_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(agregar)
-                                        .addGap(32, 32, 32)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(eliminar2)
-                                        .addGap(29, 29, 29)
-                                        .addComponent(editar2))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel2)
-                                            .addComponent(jLabel3))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(nombre_txt, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-                                            .addComponent(cedula_txt, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(apellido_txt)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(edad_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addComponent(editar2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(buscarpersona)))))
+                        .addGap(0, 60, Short.MAX_VALUE)))
                 .addGap(67, 67, 67))
         );
         layout.setVerticalGroup(
@@ -273,7 +250,8 @@ private int bandera=0;
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agregar)
                     .addComponent(eliminar2)
-                    .addComponent(editar2)))
+                    .addComponent(editar2)
+                    .addComponent(buscarpersona)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -282,42 +260,38 @@ private int bandera=0;
     }//GEN-LAST:event_tipouserActionPerformed
 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
-       bandera=0;
-        if(apellido_txt.getText().isEmpty() || nombre_txt.getText().isEmpty() || edad_txt.getText().isEmpty() || ano_txt.getText().isEmpty() || mes_txt.getText().isEmpty() || dia_txt.getText().isEmpty()){
-               bandera=1;
-              JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            
-                    tuser = (String) tipouser.getSelectedItem();
-                    LocalDateTime ahora=LocalDateTime.now();
-                    int mesaux=Integer.parseInt(mes_txt.getText());   
-                    try{
-                    if(Integer.parseInt(mes_txt.getText())<=0 || Integer.parseInt(mes_txt.getText())>=13){
-                        bandera=2;
-                        JOptionPane.showMessageDialog(this, "Este mes es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-                    }else{
-                    fechan=LocalDate.of(Integer.parseInt(ano_txt.getText()), Month.of(Integer.parseInt(mes_txt.getText())), Integer.parseInt(dia_txt.getText()));
-                    fecha1=Date.valueOf(fechan);
-                    ahora12=Timestamp.valueOf(ahora);
-                     System.out.printf("\nEl dia es es %s y naci en un %s%n",fecha1,ahora12);
-                    }
-                    }catch(java.time.DateTimeException sd){
-                        bandera=2;
-                        JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    
+        bandera = 0;
+        if (apellido_txt.getText().isEmpty() || nombre_txt.getText().isEmpty() || edad_txt.getText().isEmpty() || ano_txt.getText().isEmpty() || mes_txt.getText().isEmpty() || dia_txt.getText().isEmpty()) {
+            bandera = 1;
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            tuser = (String) tipouser.getSelectedItem();
+            LocalDateTime ahora = LocalDateTime.now();
+            int mesaux = Integer.parseInt(mes_txt.getText());
+            try {
+                if (Integer.parseInt(mes_txt.getText()) <= 0 || Integer.parseInt(mes_txt.getText()) >= 13) {
+                    bandera = 2;
+                    JOptionPane.showMessageDialog(this, "Este mes es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    fechan = LocalDate.of(Integer.parseInt(ano_txt.getText()), Month.of(Integer.parseInt(mes_txt.getText())), Integer.parseInt(dia_txt.getText()));
+                    fecha1 = Date.valueOf(fechan);
+                    ahora12 = Timestamp.valueOf(ahora);
+                    System.out.printf("\nEl dia es es %s y naci en un %s%n", fecha1, ahora12);
+                }
+            } catch (java.time.DateTimeException sd) {
+                bandera = 2;
+                JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
         System.out.println(bandera);
-        if(bandera!=1 && bandera!=2){
-            persona=Persona.crear(0,Integer.parseInt(cedula_txt.getText()),Integer.parseInt(edad_txt.getText()),nombre_txt.getText(),apellido_txt.getText(),tuser,fecha1,ahora12);
+        if (bandera != 1 && bandera != 2) {
+            persona = Persona.crear(0, Integer.parseInt(cedula_txt.getText()), Integer.parseInt(edad_txt.getText()), nombre_txt.getText(), apellido_txt.getText(), tuser, fecha1, ahora12);
             Repositorio.crear(persona);
-                            
-                            
-                   
-           
-           JOptionPane.showMessageDialog(this, "Persona Creada", "Bien", JOptionPane.INFORMATION_MESSAGE);
-            
-           
+
+            JOptionPane.showMessageDialog(this, "Persona Creada", "Bien", JOptionPane.INFORMATION_MESSAGE);
+
         }
     }//GEN-LAST:event_agregarActionPerformed
 
@@ -326,131 +300,221 @@ private int bandera=0;
     }//GEN-LAST:event_agregar1ActionPerformed
 
     private void eliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar2ActionPerformed
-        // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(this, "Realmente desea eliminar esta persona", "Eliminar", JOptionPane.YES_NO_OPTION);
+        
+        if (result == JOptionPane.YES_OPTION) {
+            Repositorio.eliminar(persona);
+            this.refreshTableModel();
+            this.resetPersona();
+        }
     }//GEN-LAST:event_eliminar2ActionPerformed
-
+    
+    private void resetPersona() {
+        persona.setId(0);
+        persona.setCedula(0);
+        persona.setNombre("");
+        persona.setApellido("");
+        persona.setFechanac(fecha1);
+        persona.setEdad(0);
+        persona.setTipo(tuser);
+        persona.setFecharegistro(ahora12);
+        popularPersona(persona);
+    }
+    public void setTableModel(DefaultTableModel table_model_personas) {
+        this.table_model_personas = table_model_personas;
+    }
+    
+    public void refreshTableModel() {
+        ArrayList<Persona> lista_personas = Repositorio.obtenerTodos();
+        while (table_model_personas.getRowCount() > 0) {
+            table_model_personas.removeRow(0);
+        }
+        
+        for (Persona p : lista_personas) {
+            //String[] data = {Integer.toString(p.getId()), Integer.toString(p.getCedula()), p.getNombre(), p.getApellido(), Date.parse(p.getFechanac()), Integer.toString(p.getEdad(), p.getTipo(), Timestamp.parse(p.getFecharegistro()))};
+            //table_model_personas.addRow(data);
+        }
+    }
+    
     private void editar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar2ActionPerformed
-        // TODO add your handling code here:
+        bandera = 0;
+        if (apellido_txt.getText().isEmpty() || nombre_txt.getText().isEmpty() || edad_txt.getText().isEmpty() || ano_txt.getText().isEmpty() || mes_txt.getText().isEmpty() || dia_txt.getText().isEmpty()) {
+            bandera = 1;
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            tuser = (String) tipouser.getSelectedItem();
+            LocalDateTime ahora = LocalDateTime.now();
+            int mesaux = Integer.parseInt(mes_txt.getText());
+            try {
+                if (Integer.parseInt(mes_txt.getText()) <= 0 || Integer.parseInt(mes_txt.getText()) >= 13) {
+                    bandera = 2;
+                    JOptionPane.showMessageDialog(this, "Este mes es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    fechan = LocalDate.of(Integer.parseInt(ano_txt.getText()), Month.of(Integer.parseInt(mes_txt.getText())), Integer.parseInt(dia_txt.getText()));
+                    fecha1 = Date.valueOf(fechan);
+                    ahora12 = Timestamp.valueOf(ahora);
+                    System.out.printf("\nEl dia es es %s y naci en un %s%n", fecha1, ahora12);
+                }
+            } catch (java.time.DateTimeException sd) {
+                bandera = 2;
+                JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
+        System.out.println(bandera);
+        if (bandera != 1 && bandera != 2) {
+            persona = Persona.crear(0, Integer.parseInt(cedula_txt.getText()), Integer.parseInt(edad_txt.getText()), nombre_txt.getText(), apellido_txt.getText(), tuser, fecha1, ahora12);
+            Repositorio.crear(persona);
+
+            JOptionPane.showMessageDialog(this, "Persona Creada", "Bien", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+        Repositorio.editar(persona);
+        JOptionPane.showMessageDialog(this, "Persona actualizada satisfactoriamente", "Bien", JOptionPane.INFORMATION_MESSAGE);
+
     }//GEN-LAST:event_editar2ActionPerformed
 
     private void cedula_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedula_txtKeyTyped
-         char c=evt.getKeyChar();
-        if(Character.isDigit(c)&& (cedula_txt.getText().length()<10))  {
-            
-        }else{
-             if(cedula_txt.getText().length()==10){
-                  evt.consume();
-               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c) && (cedula_txt.getText().length() < 10)) {
+
+        } else {
+            if (cedula_txt.getText().length() == 10) {
+                evt.consume();
+                JOptionPane.showMessageDialog(null, "Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (Character.isLetter(c) || (c >= 32 && c <= 47) || (c >= 58 && c <= 63)) {
+                    evt.consume();
+                    JOptionPane.showMessageDialog(null, "Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
             }
-            else{
-                if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
-                      evt.consume();
-                        JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-            
-             }
-           
-             
+
         }
     }//GEN-LAST:event_cedula_txtKeyTyped
 
     private void nombre_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre_txtKeyTyped
-       char c=evt.getKeyChar();
-        if(Character.isDigit(c)){
-            JOptionPane.showMessageDialog(null,"Solo se admiten letras", "Error", JOptionPane.ERROR_MESSAGE);
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            JOptionPane.showMessageDialog(null, "Solo se admiten letras", "Error", JOptionPane.ERROR_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_nombre_txtKeyTyped
 
     private void apellido_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellido_txtKeyTyped
-        char c=evt.getKeyChar();
-        if(Character.isDigit(c)){
-            JOptionPane.showMessageDialog(null,"Solo se admiten letras", "Error", JOptionPane.ERROR_MESSAGE);
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c)) {
+            JOptionPane.showMessageDialog(null, "Solo se admiten letras", "Error", JOptionPane.ERROR_MESSAGE);
             evt.consume();
         }
     }//GEN-LAST:event_apellido_txtKeyTyped
 
     private void ano_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ano_txtKeyTyped
-        char c=evt.getKeyChar();
-        if(Character.isDigit(c)&& (ano_txt.getText().length()<4)) {
-            
-       }else{
-             if(ano_txt.getText().length()==4){
-               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c) && (ano_txt.getText().length() < 4)) {
+
+        } else {
+            if (ano_txt.getText().length() == 4) {
+                JOptionPane.showMessageDialog(null, "Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);
                 evt.consume();
-             }
-            else{
-                 if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
-                      evt.consume();
-                    JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
-             }
-            
-             }
+            } else {
+                if (Character.isLetter(c) || (c >= 32 && c <= 47) || (c >= 58 && c <= 63)) {
+                    evt.consume();
+                    JOptionPane.showMessageDialog(null, "Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
         }
     }//GEN-LAST:event_ano_txtKeyTyped
 
     private void mes_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mes_txtKeyTyped
-        char c=evt.getKeyChar();
-        if(Character.isDigit(c)&& (mes_txt.getText().length()<2)) {
-            
-       }else{
-             if(mes_txt.getText().length()==2){
-                  evt.consume();
-               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
-            }
-            else{
-            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
-                  evt.consume();
-                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
-                 }
-               
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c) && (mes_txt.getText().length() < 2)) {
+
+        } else {
+            if (mes_txt.getText().length() == 2) {
+                evt.consume();
+                JOptionPane.showMessageDialog(null, "Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (Character.isLetter(c) || (c >= 32 && c <= 47) || (c >= 58 && c <= 63)) {
+                    evt.consume();
+                    JOptionPane.showMessageDialog(null, "Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+
+            }
         }
     }//GEN-LAST:event_mes_txtKeyTyped
 
     private void dia_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dia_txtKeyTyped
-        char c=evt.getKeyChar();
-        if(Character.isDigit(c)&& (dia_txt.getText().length()<2)) {
-            
-       }else{
-             if(dia_txt.getText().length()==2){
-                  evt.consume();
-               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
-            }
-            else{
-              if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
-                  evt.consume();
-                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
-                 }
-               
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c) && (dia_txt.getText().length() < 2)) {
+
+        } else {
+            if (dia_txt.getText().length() == 2) {
+                evt.consume();
+                JOptionPane.showMessageDialog(null, "Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (Character.isLetter(c) || (c >= 32 && c <= 47) || (c >= 58 && c <= 63)) {
+                    evt.consume();
+                    JOptionPane.showMessageDialog(null, "Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+
+            }
         }
     }//GEN-LAST:event_dia_txtKeyTyped
 
     private void edad_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edad_txtKeyTyped
-      char c=evt.getKeyChar();
-        if(Character.isDigit(c)&& (edad_txt.getText().length()<2)) {
-            
-       }else{
-             if(edad_txt.getText().length()==2){
-               JOptionPane.showMessageDialog(null,"Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);  
-            }
-            else{
-            if(Character.isLetter(c) || (c>=32 && c<=47) || (c>=58 && c<=63)){
-                  evt.consume();
-                JOptionPane.showMessageDialog(null,"Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
-                 }
-               
+        char c = evt.getKeyChar();
+        if (Character.isDigit(c) && (edad_txt.getText().length() < 2)) {
+
+        } else {
+            if (edad_txt.getText().length() == 2) {
+                JOptionPane.showMessageDialog(null, "Ya no puede exceder el maximo de digitos", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (Character.isLetter(c) || (c >= 32 && c <= 47) || (c >= 58 && c <= 63)) {
+                    evt.consume();
+                    JOptionPane.showMessageDialog(null, "Solo se admiten numeros enteros", "Error", JOptionPane.ERROR_MESSAGE);
                 }
+
+            }
         }
     }//GEN-LAST:event_edad_txtKeyTyped
 
+    private void buscarpersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarpersonaActionPerformed
+        String documento = JOptionPane.showInputDialog(this, "Número de documento");
+        if (!documento.isEmpty()) {
+            persona = Repositorio.buscar(documento);
+            if (persona != null) {
+                popularPersona(persona);
+            }
+        }
+    }//GEN-LAST:event_buscarpersonaActionPerformed
 
+    private void popularPersona(Persona persona) {
+        cedula_txt.setText(String.valueOf(persona.getCedula()));
+        edad_txt.setText(String.valueOf(persona.getEdad()));
+        nombre_txt.setText(persona.getNombre());
+        apellido_txt.setText(persona.getApellido());
+        tipouser.setSelectedItem(persona.getTipo());
+        ano_txt.setText(String.valueOf(persona.getFechanac()));
+        mes_txt.setText(String.valueOf(persona.getFechanac()));
+        dia_txt.setText(String.valueOf(persona.getFechanac()));
+
+        if (persona.getId() != 0) {
+            eliminar2.setVisible(true);
+            agregar.setActionCommand("Editar");
+        } else {
+            eliminar2.setVisible(false);
+            agregar.setActionCommand("Guardar");
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
     private javax.swing.JButton agregar1;
     private javax.swing.JTextField ano_txt;
     private javax.swing.JTextField apellido_txt;
+    private javax.swing.JButton buscarpersona;
     private javax.swing.JTextField cedula_txt;
     private javax.swing.JTextField dia_txt;
     private javax.swing.JTextField edad_txt;

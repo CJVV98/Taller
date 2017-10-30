@@ -37,26 +37,31 @@ public class Repositorioact {
         }
 
     }
-
+//Aqui le llegaron los datos
    public static int comparar(Date fecha1, Time horainicial, Time horafinal, String recreador1) {
        int bandera=0,bandera1=0;
         try {
+            //aqui ese select me selecciona la tabla ese where me indica donde recreador = String recreador1 si lo encuentra
             String query = "SELECT * FROM actividad WHERE recreador = '" +recreador1+"';";
-            PreparedStatement sentenciaP = database.open().prepareStatement(query);
+            PreparedStatement sentenciaP = database.open().prepareStatement(query);// esto es para preparar lo del mysql eso si lo copie del ejercicio anterior hast
             ResultSet resultado = sentenciaP.executeQuery();
             System.out.println("ID ES      -------------------------");
-            while(resultado.next()){
+            while(resultado.next()){//aqui copie
                   System.out.println("Esta fecha ya esta"+resultado.getDate("fechai")+""+fecha1+horainicial+" Esta hora"+resultado.getTime("horafinal"));
-                if(fecha1.equals(resultado.getDate("fechai"))){
+                  //Si la fecha que me llega del metodo es igual a la de la base de datos
+                  if(fecha1.equals(resultado.getDate("fechai"))){
+                      //Entra a evaluar las horas si resultado.getTime("horafinal") esto lo vi ene ejemplo del profesor lo que hace esto es traerme informacion con respecto a esta columna desde mysql
                     if((resultado.getTime("horafinal").after(horainicial)&& resultado.getTime("horainicio").before(horainicial))|| (resultado.getTime("horafinal").after(horafinal)&& resultado.getTime("horainicio").before(horafinal))
                             || horainicial.equals(resultado.getTime("horafinal")) || horainicial.equals(resultado.getTime("horainicio")) || horafinal.equals(resultado.getTime("horafinal")) || horafinal.equals(resultado.getTime("horainicio"))){
-                            System.out.println("Esta hora ya esta ok");
+                        // si se cumplehice una bandera es decir hay errores en los horarios   
+                        System.out.println("Esta hora ya esta ok");
                             bandera1++;
                     }                  
                 }             
             }
              sentenciaP.close();
              database.close();
+             // esto fue lo que se me ocurrio que si aumentaba quiere decir que no cumple las horas
            if(bandera1>0){
                bandera=1;
            }

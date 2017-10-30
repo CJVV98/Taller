@@ -12,13 +12,11 @@ import javax.swing.table.DefaultTableModel;
  * @author johan
  */
 public class Mostrar extends javax.swing.JPanel {
-
-    /**
-     * Creates new form Mostrar
-     */
+private DefaultTableModel table_model_personas;
     public Mostrar() {
         initComponents();
         configComponentes();
+        
     }
 
     /**
@@ -92,7 +90,7 @@ public class Mostrar extends javax.swing.JPanel {
         table_model_personas.addColumn("Recreador");
         
         tablaeventos.setModel(table_model_personas);
-       // panel_personas.setTableModel(table_model_personas);
-       // panel_personas.refreshTableModel();
+       //panel1.setTableModel(table_model_personas);
+       // panel1.refreshTableModel();
     }
 }

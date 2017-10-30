@@ -49,29 +49,7 @@ public class Panel2 extends javax.swing.JPanel {
         recreadoresl.addItem(lista.get(i));
     }}
 
-     public void setTableModel(DefaultTableModel table_model_eventos){
-        this. table_model_eventos =  table_model_eventos;
-    }
-    
-    public void refreshTableModel()
-    {
-       ArrayList<Actividad> lista_eventos=Repositorioact.obtenerTodos();
-       while(table_model_eventos.getRowCount()>0){
-            table_model_eventos.removeRow(0);
-       }
-       
-       for(Actividad p: lista_eventos){         
-           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-           SimpleDateFormat sdh = new SimpleDateFormat("hh:mm:ss");
-           String fecha1=sdf.format(p.getFechai());
-          
-           String hora1=sdh.format(p.getHorainicio());
-           String hora2=sdh.format(p.getHorafin());
-           String[] data={p.getNombre(),fecha1,hora1,hora2,p.getDescripcion(),p.getRecreador()};
-           table_model_eventos.addRow(data);
-       }
-    }
-    
+     
     
     
     /**
@@ -105,6 +83,7 @@ public class Panel2 extends javax.swing.JPanel {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        buscarevento = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 204, 153));
 
@@ -116,27 +95,9 @@ public class Panel2 extends javax.swing.JPanel {
 
         jLabel3.setText("Fecha");
 
-        txt_ano.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_anoKeyTyped(evt);
-            }
-        });
-
         jLabel4.setText("Hora de Inicio");
 
-        txt_horai.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_horaiKeyTyped(evt);
-            }
-        });
-
         jLabel5.setText("Hora Final");
-
-        txt_horaf.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_horafKeyTyped(evt);
-            }
-        });
 
         jLabel6.setText("Recreador");
 
@@ -175,23 +136,15 @@ public class Panel2 extends javax.swing.JPanel {
             }
         });
 
-        txt_mes.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_mesKeyTyped(evt);
-            }
-        });
-
-        txt_dia.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txt_diaKeyTyped(evt);
-            }
-        });
-
         jLabel8.setText("(año)");
 
         jLabel9.setText("(mes)");
 
         jLabel10.setText("(dia)");
+
+        buscarevento.setBackground(new java.awt.Color(102, 0, 102));
+        buscarevento.setForeground(new java.awt.Color(255, 255, 255));
+        buscarevento.setText("BUSCAR");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -223,10 +176,12 @@ public class Panel2 extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(agregar)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(eliminar)
-                                .addGap(18, 18, 18)
-                                .addComponent(editar))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(editar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(buscarevento))
                             .addComponent(jLabel7)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
@@ -246,7 +201,7 @@ public class Panel2 extends javax.swing.JPanel {
                                 .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txt_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 109, Short.MAX_VALUE))))
+                        .addGap(0, 96, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -284,7 +239,8 @@ public class Panel2 extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(agregar)
                     .addComponent(eliminar)
-                    .addComponent(editar))
+                    .addComponent(editar)
+                    .addComponent(buscarevento))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -297,7 +253,7 @@ public class Panel2 extends javax.swing.JPanel {
             
                         
        }else{
-           trecreador = (String) recreadoresl.getSelectedItem();
+           trecreador = (String) recreadoresl.getSelectedItem();//Aqui seleccionar que recreador hara la aactividad aqui hice un casteo
             LocalDateTime ahora=LocalDateTime.now();
             //Variable para revisar los 15 dias despues
             LocalDate aux=LocalDate.now();
@@ -321,9 +277,9 @@ public class Panel2 extends javax.swing.JPanel {
            }
            try{
             fechan=LocalDate.of(Integer.parseInt(txt_ano.getText()), Month.of(Integer.parseInt(txt_mes.getText())), Integer.parseInt(txt_dia.getText()));
-            fecha1=Date.valueOf(fechan);
-            horainicial=Time.valueOf(hora1);
-            horafinal=Time.valueOf(hora2);
+           fecha1=Date.valueOf(fechan);//Aqui hice casteo de la fecha de la actividad
+            horainicial=Time.valueOf(hora1);//Aqui la de la hora inicial
+            horafinal=Time.valueOf(hora2);// aqui la de la hora final
             ahora12=Timestamp.valueOf(ahora);
             System.out.println("Hora"+horainicial+" -  "+horafinal);
            }catch(java.lang.NullPointerException sr){
@@ -340,6 +296,7 @@ public class Panel2 extends javax.swing.JPanel {
                  errores++;
                   JOptionPane.showMessageDialog(this, "Por favor hacer la reserva con 15 dias de anterioridad", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            //Aqui llamo un metodo que esta en mi repositorio de actividades envio fecha horas y recreador ese metodo retorna un entero
              if(Repositorioact.comparar(fecha1,horainicial,horafinal,trecreador)==1){
                  JOptionPane.showMessageDialog(this, "Por favor revisar el horario debido a que hay un cruce de horas", "Error", JOptionPane.ERROR_MESSAGE);
                   errores++;
@@ -459,6 +416,7 @@ public class Panel2 extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregar;
+    private javax.swing.JButton buscarevento;
     private javax.swing.JButton editar;
     private javax.swing.JButton eliminar;
     private javax.swing.JLabel jLabel1;
