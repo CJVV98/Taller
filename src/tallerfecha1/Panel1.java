@@ -515,10 +515,10 @@ public class Panel1 extends javax.swing.JPanel {
 
         if (persona.getId() != 0) {
             eliminar2.setVisible(true);
-            agregar.setActionCommand("Editar");
+            editar2.setVisible(true);
         } else {
             eliminar2.setVisible(false);
-            agregar.setActionCommand("Guardar");
+            editar2.setVisible(true);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -47,6 +47,8 @@ public class Panel2 extends javax.swing.JPanel {
         lista=Repositorio.llenar_combo(); 
         for(int i=0;i<lista.size();i++){
         recreadoresl.addItem(lista.get(i));
+        eliminar.setVisible(false);
+        editar.setVisible(false);
     }}
 
      
@@ -145,6 +147,11 @@ public class Panel2 extends javax.swing.JPanel {
         buscarevento.setBackground(new java.awt.Color(102, 0, 102));
         buscarevento.setForeground(new java.awt.Color(255, 255, 255));
         buscarevento.setText("BUSCAR");
+        buscarevento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buscareventoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -313,9 +320,44 @@ public class Panel2 extends javax.swing.JPanel {
     }//GEN-LAST:event_agregarActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(this, "Realmente desea eliminar este evento", "Eliminar", JOptionPane.YES_NO_OPTION);
+
+        if (result == JOptionPane.YES_OPTION) {
+            Repositorioact.eliminar(act);
+            //this.refreshTableModel();
+            this.resetActividad();
+        }
     }//GEN-LAST:event_eliminarActionPerformed
 
+     private void resetActividad() {
+        act.setId(0);
+        act.setNombre("");
+        act.setFechai(fecha1);
+        act.setHorainicio(horainicial);
+        act.setHorafin(horafinal);
+        act.setDescripcion("");
+        act.setRecreador("");
+        act.setFecharegistro1(ahora12);
+        popularActividad(act);
+    }
+    
+     private void popularActividad(Actividad act) {
+        txt_nombre.setText(act.getNombre());
+        txt_dia.setText(String.valueOf(act.getFechai()));
+        txt_horai.setText(String.valueOf(act.getHorainicio()));
+        txt_horaf.setText(String.valueOf(act.getHorafin()));
+        txt_descripcion.setText(act.getDescripcion());
+        recreadoresl.setSelectedItem(act.getRecreador());
+
+        if (act.getId() != 0) {
+            eliminar.setVisible(true);
+            editar.setVisible(true);
+        } else {
+            eliminar.setVisible(false);
+            editar.setVisible(true);
+        }
+    }
+     
     private void txt_anoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_anoKeyTyped
          char c=evt.getKeyChar();
         if(Character.isDigit(c)&& (txt_ano.getText().length()<4)) {
@@ -410,8 +452,90 @@ public class Panel2 extends javax.swing.JPanel {
     }//GEN-LAST:event_txt_horafKeyTyped
 
     private void editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarActionPerformed
-        // TODO add your handling code here:
+        int errores=0;
+        if(txt_nombre.getText().isEmpty()||txt_mes.getText().isEmpty()||txt_dia.getText().isEmpty()||txt_ano.getText().isEmpty()||txt_horai.getText().isEmpty()|| txt_horaf.getText().isEmpty()||
+            txt_descripcion.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Por favor complete todos los campos", "Error", JOptionPane.ERROR_MESSAGE);
+            
+                        
+       }else{
+           trecreador = (String) recreadoresl.getSelectedItem();//Aqui seleccionar que recreador hara la aactividad aqui hice un casteo
+            LocalDateTime ahora=LocalDateTime.now();
+            //Variable para revisar los 15 dias despues
+            LocalDate aux=LocalDate.now();
+            Date fecha2=Date.valueOf(aux.plusDays(15));
+            //fecha para guardar fecha del evento
+            DateFormat formatter = new SimpleDateFormat("HH:mm");
+            try{
+            hora1=LocalTime.parse(txt_horai.getText());
+            }catch(java.time.format.DateTimeParseException sd){
+                 errores++;
+                 JOptionPane.showMessageDialog(this, "Por Digitar la hora en formato militar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            try{
+                hora2=LocalTime.parse(txt_horaf.getText());
+            }catch(java.time.format.DateTimeParseException sf){
+                  JOptionPane.showMessageDialog(this, "Por Digitar la hora en formato militar", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+           if(Integer.parseInt(txt_mes.getText())<=0 || Integer.parseInt(txt_mes.getText())>=13){
+                        errores++;
+                        JOptionPane.showMessageDialog(this, "Este mes es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+           }
+           try{
+            fechan=LocalDate.of(Integer.parseInt(txt_ano.getText()), Month.of(Integer.parseInt(txt_mes.getText())), Integer.parseInt(txt_dia.getText()));
+           fecha1=Date.valueOf(fechan);//Aqui hice casteo de la fecha de la actividad
+            horainicial=Time.valueOf(hora1);//Aqui la de la hora inicial
+            horafinal=Time.valueOf(hora2);// aqui la de la hora final
+            ahora12=Timestamp.valueOf(ahora);
+            System.out.println("Hora"+horainicial+" -  "+horafinal);
+           }catch(java.lang.NullPointerException sr){
+                errores++;
+           }catch(java.time.DateTimeException df){
+              errores++;
+              JOptionPane.showMessageDialog(this, "Este dia es incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+           if(errores==0){         
+            if(fecha2.before(fecha1)){
+                System.out.println("Esta despues"+fecha1+fecha2);
+            }
+            else{
+                 errores++;
+                  JOptionPane.showMessageDialog(this, "Por favor hacer la reserva con 15 dias de anterioridad", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            //Aqui llamo un metodo que esta en mi repositorio de actividades envio fecha horas y recreador ese metodo retorna un entero
+             if(Repositorioact.comparar(fecha1,horainicial,horafinal,trecreador)==1){
+                 JOptionPane.showMessageDialog(this, "Por favor revisar el horario debido a que hay un cruce de horas", "Error", JOptionPane.ERROR_MESSAGE);
+                  errores++;
+              }
+           }
+        
+        act.setNombre(txt_nombre.getText());
+        act.setFechai(fecha2);
+        act.setHorainicio(horainicial);
+        act.setHorafin(horafinal);
+        act.setDescripcion(txt_descripcion.getText());
+        act.setRecreador(trecreador);
+        act.setFecharegistro1(ahora12);
+        
+        if (errores==0) {
+          
+            Repositorioact.editar(act);
+            JOptionPane.showMessageDialog(this, "Persona actualizada satisfactoriamente", "Bien", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+          
+       }
     }//GEN-LAST:event_editarActionPerformed
+
+    private void buscareventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscareventoActionPerformed
+         /*String documento = JOptionPane.showInputDialog(this, "Número de documento");
+        if (!documento.isEmpty()) {
+            persona = Repositorio.buscar(documento);
+            if (persona != null) {
+                popularPersona(persona);
+            }
+        }*/
+    }//GEN-LAST:event_buscareventoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
