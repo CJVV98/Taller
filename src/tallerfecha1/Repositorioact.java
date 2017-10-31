@@ -135,16 +135,17 @@ public class Repositorioact {
         return actividad;
  
     }
-    /*public static Persona buscar(String documento) {
+    public static Actividad buscar(String id) {
         try {
-            String query = "SELECT * FROM registro WHERE cedula = ?;";
+            String query = "SELECT * FROM actividad WHERE id = ?;";
             PreparedStatement sentenciaP = database.open().prepareStatement(query);
-            sentenciaP.setString(1, documento);
+            sentenciaP.setString(1, id);
 
             ResultSet resultado = sentenciaP.executeQuery();
 
             while (resultado.next()) {
-                return Persona.crear(resultado.getInt("id"), resultado.getInt("cedula"), resultado.getInt("edad"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("tipo"), resultado.getDate("fechanac"),  resultado.getTimestamp("fecharegistro"));
+                //Actividad crear(int id, String nombre, String descripcion, String recreador, Date fechai, Time horainicio, Time horafin, Timestamp fecharegistro1)
+                return Actividad.crear(resultado.getInt("id"), resultado.getString("nombre"), resultado.getString("descripcion"), resultado.getString("recreador"), resultado.getDate("fechai"), resultado.getTime("horainicio"), resultado.getTime("horafinal"), resultado.getTimestamp("fecharegistro1"));
             }
             
             sentenciaP.close();
@@ -155,6 +156,6 @@ public class Repositorioact {
         }
 
         return null;
-    }*/
+    }
   
 }

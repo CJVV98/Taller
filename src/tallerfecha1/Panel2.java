@@ -585,13 +585,13 @@ public class Panel2 extends javax.swing.JPanel {
     }//GEN-LAST:event_editarActionPerformed
 
     private void buscareventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscareventoActionPerformed
-         /*String documento = JOptionPane.showInputDialog(this, "Número de documento");
-        if (!documento.isEmpty()) {
-            persona = Repositorio.buscar(documento);
-            if (persona != null) {
-                popularPersona(persona);
+        String id = JOptionPane.showInputDialog(this, "Número id evento");
+        if (!id.isEmpty()) {
+            act = Repositorioact.buscar(id);
+            if (act != null) {
+                popularActividad(act);
             }
-        }*/
+        }
     }//GEN-LAST:event_buscareventoActionPerformed
 
     private void txt_nombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_nombreKeyTyped
