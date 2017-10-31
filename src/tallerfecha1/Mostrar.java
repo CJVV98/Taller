@@ -12,11 +12,13 @@ import javax.swing.table.DefaultTableModel;
  * @author johan
  */
 public class Mostrar extends javax.swing.JPanel {
-Panel2 pan=new Panel2();
+    //Objeto tipo Panel2, es decir, tipo panel de agregar eventos
+    Panel2 pan = new Panel2();
+
     public Mostrar() {
         initComponents();
         configComponentes();
-        
+
     }
 
     /**
@@ -79,21 +81,21 @@ Panel2 pan=new Panel2();
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tablaeventos;
     // End of variables declaration//GEN-END:variables
-
+    //Método que agrega las columnas correspondientes a la tabla de eventos
     private void configComponentes() {
-         DefaultTableModel table_model_eventos = new DefaultTableModel();
+        DefaultTableModel table_model_eventos = new DefaultTableModel();
         table_model_eventos.addColumn("Nombre");
         table_model_eventos.addColumn("Fecha");
         table_model_eventos.addColumn("Hora(ini)");
         table_model_eventos.addColumn("Hora(fin)");
         table_model_eventos.addColumn("Descripcion");
         table_model_eventos.addColumn("Recreador");
-        
+
         tablaeventos.setModel(table_model_eventos);
-        
+
         pan.setTableModel(table_model_eventos);
         pan.refreshTableModel();
-       //panel1.setTableModel(table_model_personas);
-       // panel1.refreshTableModel();
+        //panel1.setTableModel(table_model_personas);
+        // panel1.refreshTableModel();
     }
 }

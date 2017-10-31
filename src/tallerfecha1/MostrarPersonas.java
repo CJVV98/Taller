@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Angie
  */
 public class MostrarPersonas extends javax.swing.JPanel {
-
+    //Objeto tipo Panel1, es decir, panel de agregar personas
     Panel1 per = new Panel1();
     public MostrarPersonas() {
         initComponents();
@@ -94,6 +94,7 @@ public class MostrarPersonas extends javax.swing.JPanel {
                 .addGap(32, 32, 32))
         );
     }// </editor-fold>//GEN-END:initComponents
+    //Método que agrega las columnas correspondientes a la tabla personas
     private void configComponentes() {
          DefaultTableModel table_model_personas = new DefaultTableModel();
         table_model_personas.addColumn("Cédula");

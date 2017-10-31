@@ -22,7 +22,7 @@ public class Actividad {
     private Date fechai;
     private Time horainicio,horafin;
     private Timestamp fecharegistro1;
-
+    //Constructor de Actividad (Evento)
     public Actividad(int id, String nombre, String descripcion, String recreador, Date fechai, Time horainicio, Time horafin, Timestamp fecharegistro1) {
         this.id = id;
         this.nombre = nombre;
@@ -33,6 +33,7 @@ public class Actividad {
         this.horafin = horafin;
         this.fecharegistro1 = fecharegistro1;
     }
+    //Método crear actividad o evento
     public static Actividad crear(int id, String nombre, String descripcion, String recreador, Date fechai, Time horainicio, Time horafin, Timestamp fecharegistro1)  {
         return new Actividad(id,nombre,descripcion,recreador,fechai,horainicio,horafin,fecharegistro1 );
     }

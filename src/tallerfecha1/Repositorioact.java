@@ -15,7 +15,7 @@ public class Repositorioact {
     private static DBManager database = new DBManager();
     static Statement sentencia;
     static ResultSet resultado;
-
+    //Método crear actividad en la base de datos
     public static void crear(Actividad actividad1) {
 
         try {
@@ -39,7 +39,7 @@ public class Repositorioact {
 
     }
 //Aqui le llegaron los datos
-
+    //Método comparar que evalua la fecha del evento con las horas y el recreador para que no se repita
     public static int comparar(Date fecha1, Time horainicial, Time horafinal, String recreador1) {
         int bandera = 0, bandera1 = 0;
         try {
@@ -63,7 +63,7 @@ public class Repositorioact {
             }
             sentenciaP.close();
             database.close();
-            // esto fue lo que se me ocurrio que si aumentaba quiere decir que no cumple las horas
+            // bandera que si aumentaba quiere decir que no cumple las horas
             if (bandera1 > 0) {
                 bandera = 1;
             }
@@ -73,7 +73,7 @@ public class Repositorioact {
         }
         return bandera;
     }
-
+    //Método eliminar actividad en la base de datos
     public static void eliminar(Actividad act) {
         try {
             String query = "DELETE FROM actividad WHERE id = ?;";
@@ -87,7 +87,7 @@ public class Repositorioact {
             System.out.println(e.getMessage());
         }
     }
-
+    //Método que edita la actividad en la base de datos según lo ingresado en los campos de texto
     public static void editar(Actividad act) {
         try {
             String query = "UPDATE actividad SET nombre = ?, fechai = ?, horainicio = ?, horafinal = ?, descripcion = ?, recreador = ?, fecharegistro1 = ? WHERE id = ?;";
@@ -108,7 +108,7 @@ public class Repositorioact {
             System.out.println(e.getMessage());
         }
     }
-    
+    //Método que guarda en la lista actividad los eventos agregados
        public static ArrayList<Actividad> obtenerTodos() {
         System.out.println("AQUI ESTOY 2");
         ArrayList<Actividad> actividad = new ArrayList<Actividad>();
@@ -135,6 +135,7 @@ public class Repositorioact {
         return actividad;
  
     }
+       //Método que busca el id de evento ingresado y muestra los datos asociados a dicho id
     public static Actividad buscar(String id) {
         try {
             String query = "SELECT * FROM actividad WHERE id = ?;";

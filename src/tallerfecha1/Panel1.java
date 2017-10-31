@@ -39,11 +39,11 @@ public class Panel1 extends javax.swing.JPanel {
         eliminar2.setVisible(false);
         editar2.setVisible(false);
     }
-    
+    //Método para generar la tabla personas
     public void setTableModel(DefaultTableModel table_model_personas){
         this. table_model_personas =  table_model_personas;
     }
-    
+    //Método que actualiza la lista y tabla personas
     public void refreshTableModel()
     {
        ArrayList<Persona> lista_personas=Repositorio.obtenerTodos();
@@ -321,7 +321,7 @@ public class Panel1 extends javax.swing.JPanel {
     private void tipouserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipouserActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tipouserActionPerformed
-
+    //Método agregar personas, se tienen en cuenta validaciones 
     private void agregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarActionPerformed
         bandera = 0;
         if (apellido_txt.getText().isEmpty() || nombre_txt.getText().isEmpty() || edad_txt.getText().isEmpty() || ano_txt.getText().isEmpty() || mes_txt.getText().isEmpty() || dia_txt.getText().isEmpty()) {
@@ -364,7 +364,7 @@ public class Panel1 extends javax.swing.JPanel {
     private void agregar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregar1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_agregar1ActionPerformed
-
+    //Método para eliminar persona buscada, llama al método eliminar en la clase Repositorio
     private void eliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar2ActionPerformed
         int result = JOptionPane.showConfirmDialog(this, "Realmente desea eliminar esta persona", "Eliminar", JOptionPane.YES_NO_OPTION);
 
@@ -374,7 +374,7 @@ public class Panel1 extends javax.swing.JPanel {
             this.resetPersona();
         }
     }//GEN-LAST:event_eliminar2ActionPerformed
-
+    //Métoo para resetear a la Persona
     private void resetPersona() {
         persona.setId(0);
         persona.setCedula(0);
@@ -387,26 +387,7 @@ public class Panel1 extends javax.swing.JPanel {
         popularPersona(persona);
     }
 
-    /*public void setTableModel(DefaultTableModel table_model_personas) {
-        this.table_model_personas = table_model_personas;
-    }
-    
-    public void refreshTableModel() {
-        ArrayList<Persona> lista_personas = Repositorio.obtenerTodos();
-        while (table_model_personas.getRowCount() > 0) {
-            table_model_personas.removeRow(0);
-        }
-        
-        for (Persona p : lista_personas) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-         
-          
-            String fecha1 = sdf.format(p.getFechanac());
-            String[] data = {Integer.toString(p.getId()), Integer.toString(p.getCedula()), p.getNombre(), p.getApellido(), fecha1, Integer.toString(p.getEdad()), p.getTipo()};
-            table_model_personas.addRow(data);
-        }
-    }*/
-
+    //Método que valida el tamaño del número de cédula
     private void cedula_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cedula_txtKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c) && (cedula_txt.getText().length() < 10)) {
@@ -425,7 +406,7 @@ public class Panel1 extends javax.swing.JPanel {
 
         }
     }//GEN-LAST:event_cedula_txtKeyTyped
-
+    //Método que valida que sólo se acepten letras en el nombre
     private void nombre_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nombre_txtKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
@@ -433,7 +414,7 @@ public class Panel1 extends javax.swing.JPanel {
             evt.consume();
         }
     }//GEN-LAST:event_nombre_txtKeyTyped
-
+    //Método que valida que sólo se acepten letras en el apellido
     private void apellido_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_apellido_txtKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c)) {
@@ -441,7 +422,7 @@ public class Panel1 extends javax.swing.JPanel {
             evt.consume();
         }
     }//GEN-LAST:event_apellido_txtKeyTyped
-
+    //Método que valida que el tamaño del año sea de sólo 4 dígitos y sean sólo números enteros
     private void ano_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ano_txtKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c) && (ano_txt.getText().length() < 4)) {
@@ -459,7 +440,7 @@ public class Panel1 extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_ano_txtKeyTyped
-
+    //Método que valida que la longitud del mes sea de sólo 2 o 1 dígitos y sean sólo números enteros
     private void mes_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mes_txtKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c) && (mes_txt.getText().length() < 2)) {
@@ -477,7 +458,7 @@ public class Panel1 extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_mes_txtKeyTyped
-
+    //Método que valida que la longitud del dia sea de 2 o 1 dígitos y sean sólo números enteros
     private void dia_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dia_txtKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c) && (dia_txt.getText().length() < 2)) {
@@ -495,7 +476,7 @@ public class Panel1 extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_dia_txtKeyTyped
-
+    //Método que valida que la longitud de la edad sea de 1 o 2 dígitos y que corresponda a números enteros
     private void edad_txtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edad_txtKeyTyped
         char c = evt.getKeyChar();
         if (Character.isDigit(c) && (edad_txt.getText().length() < 2)) {
@@ -512,7 +493,7 @@ public class Panel1 extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_edad_txtKeyTyped
-
+    //Método que se activa al dar click en el botón buscar y llama a la función buscar en la clase Repositorio
     private void buscarpersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscarpersonaActionPerformed
         String documento = JOptionPane.showInputDialog(this, "Número de documento");
         if (!documento.isEmpty()) {
@@ -522,7 +503,7 @@ public class Panel1 extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_buscarpersonaActionPerformed
-
+    //Método que permite editar información de los campos de texto de la persona buscada
     private void editar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editar2ActionPerformed
         bandera = 0;
         if (apellido_txt.getText().isEmpty() || nombre_txt.getText().isEmpty() || edad_txt.getText().isEmpty() || ano_txt.getText().isEmpty() || mes_txt.getText().isEmpty() || dia_txt.getText().isEmpty()) {
@@ -567,7 +548,7 @@ public class Panel1 extends javax.swing.JPanel {
         //Repositorio.editar(persona);
 
     }//GEN-LAST:event_editar2ActionPerformed
-
+    //Método que recibe la información ingresada en los campos de texto
     private void popularPersona(Persona persona) {
         cedula_txt.setText(String.valueOf(persona.getCedula()));
         edad_txt.setText(String.valueOf(persona.getEdad()));

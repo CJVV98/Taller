@@ -19,7 +19,7 @@ public class Persona {
     private Date fechanac;
     private Timestamp fecharegistro;
 
-
+    //Constructor persona
     public Persona(int id, int cedula, int edad, String nombre, String apellido, String tipo, Date fechanac, Timestamp fecharegistro) {
         this.id = id;
         this.cedula = cedula;
@@ -100,7 +100,7 @@ public class Persona {
 
  
 
-  
+    //Método crear Persona
      public static Persona crear(int id, int cedula, int edad, String nombre, String apellido, String tipo,Date fechanac, Timestamp fecharegistro) {
         return new Persona(id,cedula,edad,nombre,apellido,tipo,fechanac,fecharegistro );
     }

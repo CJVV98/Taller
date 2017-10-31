@@ -12,21 +12,23 @@ import java.awt.BorderLayout;
  * @author johan
  */
 public class Main extends javax.swing.JFrame {
-     public static void main(String[] args) {
+
+    public static void main(String[] args) {
         // TODO code application logic here
-   
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);
             }
         });
     }
+
     /**
      * Creates new form main
      */
     public Main() {
         initComponents();
-         configComponents();
+        configComponents();
     }
 
     /**
@@ -151,60 +153,58 @@ public class Main extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    //Método que muestra el panel agregar personas
     private void agregaruMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregaruMouseClicked
-        System.out.println("AUI ESTOY");
-        Panel1 panel1=new Panel1();
+        System.out.println("AQUI ESTOY");
+        Panel1 panel1 = new Panel1();
         panel1.setSize(400, 300);
         panel1.setLocation(5, 5);
-        
+
         panelPrincipal.removeAll();
-        panelPrincipal.add(panel1,BorderLayout.CENTER);
+        panelPrincipal.add(panel1, BorderLayout.CENTER);
         panelPrincipal.revalidate();
         panelPrincipal.repaint();
     }//GEN-LAST:event_agregaruMouseClicked
-
+    //Método que muestra el panel agregar eventos
     private void agregareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_agregareMouseClicked
         panelPrincipal.revalidate();
         panelPrincipal.repaint();
         panelPrincipal.removeAll();
-        System.out.println("AUI ESTOY");
-        Panel2 panel2=new Panel2();
+        System.out.println("AQUI ESTOY");
+        Panel2 panel2 = new Panel2();
         panel2.setSize(500, 380);
         panel2.setLocation(5, 5);
-        
-      
-        panelPrincipal.add(panel2,BorderLayout.CENTER);
-     
-    }//GEN-LAST:event_agregareMouseClicked
 
+        panelPrincipal.add(panel2, BorderLayout.CENTER);
+
+    }//GEN-LAST:event_agregareMouseClicked
+    //Método que muestra el panel mostrar eventos
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
-System.out.println("AUI ESTOY");
-        Mostrar panel3=new Mostrar();
+        System.out.println("AQUI ESTOY");
+        Mostrar panel3 = new Mostrar();
         panel3.setSize(500, 300);
         panel3.setLocation(5, 5);
-        
+
         panelPrincipal.removeAll();
-        panelPrincipal.add(panel3,BorderLayout.CENTER);
+        panelPrincipal.add(panel3, BorderLayout.CENTER);
         panelPrincipal.revalidate();
         panelPrincipal.repaint();        // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1MouseClicked
-
+    //Método que muestra el panel mostrar personas
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        MostrarPersonas panel3=new MostrarPersonas();
+        MostrarPersonas panel3 = new MostrarPersonas();
         panel3.setSize(500, 300);
         panel3.setLocation(5, 5);
-        
+
         panelPrincipal.removeAll();
-        panelPrincipal.add(panel3,BorderLayout.CENTER);
+        panelPrincipal.add(panel3, BorderLayout.CENTER);
         panelPrincipal.revalidate();
-        panelPrincipal.repaint(); 
+        panelPrincipal.repaint();
     }//GEN-LAST:event_jMenu2MouseClicked
 
     /**
      * @param args the command line arguments
      */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu agregare;
@@ -219,6 +219,6 @@ System.out.println("AUI ESTOY");
     // End of variables declaration//GEN-END:variables
 
     private void configComponents() {
-       
+
     }
 }

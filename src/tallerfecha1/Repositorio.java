@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Repositorio {
-	
+
     private static DBManager database = new DBManager();
-      static Statement sentencia;
-      static ResultSet resultado;
-    public static void crear (Persona persona) {
-        
+    static Statement sentencia;
+    static ResultSet resultado;
+    //Método crear persona en la base de datos
+    public static void crear(Persona persona) {
+
         try {
             String query = "INSERT INTO registro (cedula, nombre,apellido, fechanac, edad, tipo, fecharegistro) VALUES (?, ?, ?, ?, ?, ?, ?);";
             //Colocar esos interrogantes l
@@ -36,11 +37,12 @@ public class Repositorio {
         }
 
     }
-    public static void editar (Persona persona) {
+    //Método editar persona en la base de datos
+    public static void editar(Persona persona) {
         try {
             String query = "UPDATE registro SET cedula = ?, nombre = ?, apellido = ?, fechanac = ?, edad = ?, tipo= ?, fecharegistro = ? WHERE id = ?;";
             PreparedStatement sentenciaP = database.open().prepareStatement(query);
-             sentenciaP.setInt(1, persona.getCedula());
+            sentenciaP.setInt(1, persona.getCedula());
             sentenciaP.setString(2, persona.getNombre());
             sentenciaP.setString(3, persona.getApellido());
             sentenciaP.setDate(4, persona.getFechanac());
@@ -56,8 +58,8 @@ public class Repositorio {
             System.out.println(e.getMessage());
         }
     }
-    
-    public static void eliminar (Persona persona) {
+    //Método eliminar persona en la base de datos
+    public static void eliminar(Persona persona) {
         try {
             String query = "DELETE FROM registro WHERE id = ?;";
             PreparedStatement sentenciaP = database.open().prepareStatement(query);
@@ -70,7 +72,7 @@ public class Repositorio {
             System.out.println(e.getMessage());
         }
     }
-    
+    //Método obtenerTodos, se encarga de agregar a la lista personas los registros
     public static ArrayList<Persona> obtenerTodos() {
         ArrayList<Persona> personas = new ArrayList<Persona>();
 
@@ -81,7 +83,7 @@ public class Repositorio {
 
             while (resultado.next()) {
                 //t id, int cedula, int edad, String nombre, String apellido, String tipo,Date fechanac, Timestamp fecharegistro)
-                personas.add(Persona.crear(resultado.getInt("id"), resultado.getInt("cedula"), resultado.getInt("edad"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("tipo"), resultado.getDate("fechanac"),  resultado.getTimestamp("fecharegistro")));
+                personas.add(Persona.crear(resultado.getInt("id"), resultado.getInt("cedula"), resultado.getInt("edad"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("tipo"), resultado.getDate("fechanac"), resultado.getTimestamp("fecharegistro")));
             }
 
             sentenciaP.close();
@@ -94,28 +96,28 @@ public class Repositorio {
 
         return personas;
     }
-    
-    public static ArrayList<String> llenar_combo(){
+    //Método llenar el jcombobox de recreadores
+    public static ArrayList<String> llenar_combo() {
         ArrayList<String> lista = new ArrayList<String>();
         try {
-             String query = "SELECT * FROM registro WHERE tipo = 'RECREADOR';";
+            String query = "SELECT * FROM registro WHERE tipo = 'RECREADOR';";
             PreparedStatement sentenciaP = database.open().prepareStatement(query);
             ResultSet resultado = sentenciaP.executeQuery();
-            while(resultado.next()){
-                String var=Integer.toString(resultado.getInt("id"));
-                lista.add(var+"-"+resultado.getString("nombre")+" "+resultado.getString("apellido"));
+            while (resultado.next()) {
+                String var = Integer.toString(resultado.getInt("id"));
+                lista.add(var + "-" + resultado.getString("nombre") + " " + resultado.getString("apellido"));
             }
-             sentenciaP.close();
-             database.close();
-             return lista;
-            
+            sentenciaP.close();
+            database.close();
+            return lista;
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return lista;
     }
-    
-       public static Persona buscar(String documento) {
+    //Método buscar persona en la base de datos donde sea igual a la cédula ingresada
+    public static Persona buscar(String documento) {
         try {
             String query = "SELECT * FROM registro WHERE cedula = ?;";
             PreparedStatement sentenciaP = database.open().prepareStatement(query);
@@ -124,9 +126,9 @@ public class Repositorio {
             ResultSet resultado = sentenciaP.executeQuery();
 
             while (resultado.next()) {
-                return Persona.crear(resultado.getInt("id"), resultado.getInt("cedula"), resultado.getInt("edad"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("tipo"), resultado.getDate("fechanac"),  resultado.getTimestamp("fecharegistro"));
+                return Persona.crear(resultado.getInt("id"), resultado.getInt("cedula"), resultado.getInt("edad"), resultado.getString("nombre"), resultado.getString("apellido"), resultado.getString("tipo"), resultado.getDate("fechanac"), resultado.getTimestamp("fecharegistro"));
             }
-            
+
             sentenciaP.close();
             database.close();
 
@@ -136,29 +138,27 @@ public class Repositorio {
 
         return null;
     }
-
+    //Método que valida que la cédula ha sido encontrada 
     public static int validarcedula(int cedula) {
-         int bandera=0; 
-       try {
+        int bandera = 0;
+        try {
             //aqui ese select me selecciona la tabla ese where me indica donde recreador = String recreador1 si lo encuentra
-            String query = "SELECT * FROM registro WHERE cedula = '" + cedula+ "';";
-            PreparedStatement sentenciaP = database.open().prepareStatement(query);// esto es para preparar lo del mysql eso si lo copie del ejercicio anterior hast
+            String query = "SELECT * FROM registro WHERE cedula = '" + cedula + "';";
+            PreparedStatement sentenciaP = database.open().prepareStatement(query);// esto es para preparar lo del mysql 
             ResultSet resultado = sentenciaP.executeQuery();
-            
-            while (resultado.next()) {//aqui copie
-             if (resultado.getInt("cedula")==cedula) {
-                 bandera++;
-             }
-         }
-            } catch (Exception e) {
-            System.out.println(e.getMessage());
+
+            while (resultado.next()) {
+                if (resultado.getInt("cedula") == cedula) {
+                    bandera++;
+                }
             }
-       if(bandera>0){
-           return 1;
-       }else{
-           return 0;
-       }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        if (bandera > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
-
-
