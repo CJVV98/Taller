@@ -13,7 +13,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Mostrar extends javax.swing.JPanel {
 Panel2 pan=new Panel2();
-private DefaultTableModel table_model_personas;
     public Mostrar() {
         initComponents();
         configComponentes();

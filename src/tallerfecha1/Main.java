@@ -46,6 +46,7 @@ public class Main extends javax.swing.JFrame {
         agregaru = new javax.swing.JMenu();
         agregare = new javax.swing.JMenu();
         jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 102));
@@ -117,13 +118,23 @@ public class Main extends javax.swing.JFrame {
         jMenuBar2.add(agregare);
 
         jMenu1.setForeground(new java.awt.Color(255, 255, 255));
-        jMenu1.setText("MOSTRAR");
+        jMenu1.setText("MOSTRAR EVENTOS");
         jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jMenu1MouseClicked(evt);
             }
         });
         jMenuBar2.add(jMenu1);
+
+        jMenu2.setBackground(new java.awt.Color(102, 0, 0));
+        jMenu2.setForeground(new java.awt.Color(255, 255, 255));
+        jMenu2.setText("MOSTRAR PERSONAS");
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
+        jMenuBar2.add(jMenu2);
 
         setJMenuBar(jMenuBar2);
 
@@ -179,6 +190,17 @@ System.out.println("AUI ESTOY");
         panelPrincipal.repaint();        // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1MouseClicked
 
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        MostrarPersonas panel3=new MostrarPersonas();
+        panel3.setSize(500, 300);
+        panel3.setLocation(5, 5);
+        
+        panelPrincipal.removeAll();
+        panelPrincipal.add(panel3,BorderLayout.CENTER);
+        panelPrincipal.revalidate();
+        panelPrincipal.repaint(); 
+    }//GEN-LAST:event_jMenu2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -191,6 +213,7 @@ System.out.println("AUI ESTOY");
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables

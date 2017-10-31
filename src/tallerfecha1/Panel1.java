@@ -39,7 +39,27 @@ public class Panel1 extends javax.swing.JPanel {
         eliminar2.setVisible(false);
         editar2.setVisible(false);
     }
-
+    
+    public void setTableModel(DefaultTableModel table_model_personas){
+        this. table_model_personas =  table_model_personas;
+    }
+    
+    public void refreshTableModel()
+    {
+       ArrayList<Persona> lista_personas=Repositorio.obtenerTodos();
+       while(table_model_personas.getRowCount()>0){
+            table_model_personas.removeRow(0);
+       }
+       
+       for(Persona p: lista_personas){         
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+         
+          
+            String fecha1 = sdf.format(p.getFechanac());
+            String[] data = {Integer.toString(p.getId()), Integer.toString(p.getCedula()), p.getNombre(), p.getApellido(), fecha1, Integer.toString(p.getEdad()), p.getTipo()};
+            table_model_personas.addRow(data);
+       }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
